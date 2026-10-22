@@ -48,7 +48,7 @@ RUSTFLAGS='--cfg loom' cargo test --test loom_mpmc --release
 cargo bench --bench throughput
 ```
 
-GitHub Actions recipe: [`ci/github-actions.yml`](./ci/github-actions.yml) (test, clippy, miri, loom, ASan/TSan). Not yet enabled on this repo — the current `gh` token lacks the `workflow` scope; copy into `.github/workflows/ci.yml` after `gh auth refresh -s workflow`.
+GitHub Actions: [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) — test (ubuntu/macos), clippy, miri, loom, ASan/TSan.
 
 ## Honest performance
 
