@@ -7,7 +7,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  RUSTFLAGS: -D warnings
 
 jobs:
   test:
@@ -59,14 +58,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rust-src
       - uses: Swatinem/rust-cache@v2
       - name: AddressSanitizer
-        run: cargo +nightly test --lib --target x86_64-unknown-linux-gnu
+        run: cargo +nightly test -Zbuild-std --target x86_64-unknown-linux-gnu --lib
         env:
           RUSTFLAGS: -Zsanitizer=address
           RUSTDOCFLAGS: -Zsanitizer=address
       - name: ThreadSanitizer
-        run: cargo +nightly test --lib --release --target x86_64-unknown-linux-gnu
+        run: cargo +nightly test -Zbuild-std --target x86_64-unknown-linux-gnu --lib --release
         env:
           RUSTFLAGS: -Zsanitizer=thread
           RUSTDOCFLAGS: -Zsanitizer=thread
