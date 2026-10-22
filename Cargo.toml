@@ -1,0 +1,34 @@
+[package]
+name = "lockfree-mpmc"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+license = "Apache-2.0"
+description = "Bounded lock-free MPMC queue (Vyukov algorithm, cache-padded), verified with loom and Miri"
+repository = "https://github.com/federiconbaez/lockfree-mpmc"
+readme = "README.md"
+keywords = ["lock-free", "mpmc", "queue", "concurrency", "vyukov"]
+categories = ["concurrency", "data-structures"]
+
+[dependencies]
+crossbeam-utils = "0.8"
+
+[target.'cfg(loom)'.dependencies]
+loom = "0.7"
+
+[dev-dependencies]
+proptest = "1"
+criterion = "0.5"
+crossbeam-channel = "0.5"
+
+[[bench]]
+name = "throughput"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(loom)'] }
